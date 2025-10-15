@@ -12,12 +12,12 @@
         public string Name { get; set; }
         public Gender Gender { get; set; }
         public int Age { get; set; }
-        public Guid DNA { get; set; }    //unik indetifier
+        public Guid DNA { get; set; }    //unique identifier
         public bool IsAlive { get; set; }
 
 
         /// <summary>
-        /// biological & phisical
+        /// biological & physical
         /// </summary>
         //public double BMI { get; set; } // health
         public double Health { get; set; } = 100;
@@ -36,8 +36,11 @@
         public double Thirst { get; set; } = 0.0; //Full
         public string BloodType { get; set; }
 
+        public string Mother { get; set; }
+        public string Father { get; set; }
 
-        //Emotional & congnetive 
+
+        //Emotional & cognitive 
         public double Intelligence { get; set; }
 
         public double Empaty { get; set; }
@@ -50,7 +53,7 @@
         public double Curiosity { get; set; }
         public double StressLevel { get; set; } = 0.0;
         public double Wisdom { get; set; }
-        public double Happiness { get; set; } // 10
+        public double Happiness { get; set; } = 100; // 10
 
 
         // Social
@@ -66,14 +69,14 @@
         public string EducationLevel { get; set; }
         public string HomeLocation { get; set; }
 
-        //Existencial 
+        //Existential 
         public string Purpuse { get; set; }
         public bool IsReligious { get; set; }
         public double FaithLevel { get; set; }
         public double LegacyLevel { get; set; }
 
 
-        public Human(string name, Gender gender, string birthLocation, bool isAlaive)
+        public Human(string name, Gender gender, string birthLocation, bool isAlaive, string father, string mother)
         {
             Name = name;
             Gender = gender;
@@ -87,12 +90,49 @@
 
             IsAlive = isAlaive;
             Population++;
+            Father = father;
+            Mother = mother;
         }
 
         public void PrintSummary()
         {
             Console.WriteLine($"Age: {Age}. Gender: {Gender}. Health: {Health}. Energy:{EnergyLevel} Happiness: {Happiness}");
         }
+
+        public void SimulatYear()
+        {
+            GetOlder();
+            Random rnd = new Random();
+            int happy = rnd.Next(10, 30);
+            int health = rnd.Next(10, 30);
+            int deathChance = rnd.Next(10, 40);
+
+            Happiness -= happy;
+            Health -= health;
+
+            if (deathChance < 15 && deathChance > 20)
+            {
+                IsAlive = false;
+            }
+
+        }
+
+        public void GoToSchool()
+        {
+            Random rnd = new Random();
+            int intPoints = rnd.Next(5, 15);
+            Intelligence += intPoints;
+            Skills.Add("Education");
+        }
+
+
+        public void LearnSkill(string skill)
+        {
+            Skills.Add(skill);
+            Creativity += 5;
+        }
+
+
 
         public void Speak(Human human)
         {
@@ -119,7 +159,6 @@
             {
                 EnergyLevel = 100;
                 SleepQuality = 100;
-
             }
         }
 
@@ -157,12 +196,30 @@
                 randomName = femaleNames[rnd.Next(femaleNames.Length)];
             }
             string birthLocation = location[rnd.Next(location.Length)];
-            Human human = new(randomName, randomPeople, birthLocation, true);
+            Human human = new(randomName, randomPeople, birthLocation, true, "Steve", "Not Steve");
             return human;
 
         }
 
-        public Human MakeChild(Human partner)
+        public void FamilyTree(List<Human> tree)
+        {
+            List<Human> sibling = new();
+            foreach (Human human in tree)
+            {
+                if (human.Father == Father)
+                {
+                    sibling.Add(human);
+                }
+            }
+            Console.WriteLine($"Father: {Father} Mother: {Mother}");
+            Console.WriteLine("Sibling: ");
+            foreach (Human sib in sibling)
+            {
+                Console.WriteLine(sib.Name);
+            }
+        }
+
+        public static Human MakeChild(Human male, Human female)
         {
             Random rnd = new Random();
             string[] maleNames = { "Noah", "Cain", "Able", "Disable", "Frank", "Abraham" };
@@ -184,9 +241,8 @@
                 childName = femaleNames[rnd.Next(maleNames.Length)];
             }
 
-            Human human = new Human(childName, Child, partner.HomeLocation, true);
+            Human human = new Human(childName, Child, male.HomeLocation, true, male.Name, female.Name);
             return human;
-
         }
 
         public static void RandomDeathInPopulation(List<Human> humans)
@@ -227,7 +283,8 @@
 
         public override string ToString()
         {
-            return $"{Name} Guid: {DNA} Gender: {Gender}. Age: {Age}. Is Alive: {IsAlive}. Birth Location: {HomeLocation}";
+            return $"{Name} Guid: {DNA} Gender: {Gender}. Age: {Age}. Is Alive: {IsAlive}. Birth Location: {HomeLocation}" +
+                $" Father: {Father}. Mother: {Mother}";
         }
 
 

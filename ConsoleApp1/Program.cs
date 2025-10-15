@@ -4,8 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Human adam = new("Adam", Gender.Male, "Garden of Eden", true);
-            Human eve = new("Eve", Gender.Female, "Garden of Eden", true);
+            Human adam = new("Adam", Gender.Male, "Garden of Eden", true, "God", "Gaia");
+            Human eve = new("Eve", Gender.Female, "Garden of Eden", true, "God", "Gaia");
 
             adam.Age = 35;
             eve.Age = 33;
@@ -15,14 +15,14 @@
             List<Human> Soceity = new List<Human>();
             Soceity.Add(eve);
             Soceity.Add(adam);
-            Soceity.Add(adam.MakeChild(eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
 
-            Soceity.Add(adam.MakeChild(eve));
-            Soceity.Add(adam.MakeChild(eve));
-            Soceity.Add(adam.MakeChild(eve));
-            Soceity.Add(adam.MakeChild(eve));
-            Soceity.Add(adam.MakeChild(eve));
-            Soceity.Add(adam.MakeChild(eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
+            Soceity.Add(Human.MakeChild(adam, eve));
 
             Soceity[2].GetOlder();
             Soceity[2].GetOlder();
@@ -40,6 +40,8 @@
             Soceity[4].GetOlder();
             Soceity[4].GetOlder();
 
+            //Human bob = Human.MakeChild(Soceity[3], Soceity[4]);
+            //Console.WriteLine($"{bob.Father}, {bob.Mother}");
 
             //Console.WriteLine(Society[2].ToString());   test
 
@@ -136,9 +138,17 @@
 
 
             //-------------- 17
-            //var p1 = Human.RandomHuman();
-            //var p2 = Human.RandomHuman();
-            //var p3 = Human.RandomHuman();
+            //List<Human> randoms = new();
+
+
+            //Human p1 = Human.RandomHuman();
+            //Human p2 = Human.RandomHuman();
+            //Human p3 = Human.RandomHuman();
+            //randoms.Add(p1);
+            //randoms.Add(p2);
+            //randoms.Add(p3);
+
+
             //Console.WriteLine(p1.ToString());
             //Console.WriteLine(p2.ToString());
             //Console.WriteLine(p3.ToString());
@@ -156,8 +166,14 @@
             //}
 
 
-            // -------------- 19
+            // -------------- 22
+            //Soceity[2].FamilyTree(Soceity);
+            //Console.WriteLine(Soceity[4].ToString());
 
+            //Soceity[4].GoToSchool();
+            //Console.WriteLine(Soceity[4].Skills[0]);
+
+            //----------------- 23
 
 
 

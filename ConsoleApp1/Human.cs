@@ -99,44 +99,26 @@
             Console.WriteLine($"Age: {Age}. Gender: {Gender}. Health: {Health}. Energy:{EnergyLevel} Happiness: {Happiness}");
         }
 
-        public void SimulatYear()
+
+        public static void FindByName(List<Human> sociatiy, string name)
         {
-            GetOlder();
-            Random rnd = new Random();
-            int happy = rnd.Next(10, 30);
-            int health = rnd.Next(10, 30);
-            int deathChance = rnd.Next(10, 40);
-
-            Happiness -= happy;
-            Health -= health;
-
-            if (deathChance < 15 && deathChance > 20)
+            var person = sociatiy[0];
+            foreach (var h in sociatiy)
             {
-                IsAlive = false;
+                if (name == h.Name)
+                {
+                    person = h;
+                    break;
+                }
+
             }
-
+            Console.WriteLine(person.ToString());
         }
-
-        public void GoToSchool()
-        {
-            Random rnd = new Random();
-            int intPoints = rnd.Next(5, 15);
-            Intelligence += intPoints;
-            Skills.Add("Education");
-        }
-
 
         public void LearnSkill(string skill)
         {
             Skills.Add(skill);
             Creativity += 5;
-        }
-
-
-
-        public void Speak(Human human)
-        {
-            Console.WriteLine($"{Name} says HeLlO to {human.Name}");
         }
 
         public void Rest()
@@ -174,6 +156,43 @@
             }
 
         }
+
+        public void SimulatYear()
+        {
+            GetOlder(1);
+            Random rnd = new Random();
+            int happy = rnd.Next(10, 30);
+            int health = rnd.Next(10, 30);
+            int deathChance = rnd.Next(10, 40);
+
+            Happiness -= happy;
+            Health -= health;
+
+            if (deathChance > 5 && deathChance < 30)
+            {
+                IsAlive = false;
+            }
+
+        }
+
+        public void GoToSchool()
+        {
+            Random rnd = new Random();
+            int intPoints = rnd.Next(5, 15);
+            Intelligence += intPoints;
+            Skills.Add("Education");
+        }
+
+
+
+
+        public void Speak(Human human)
+        {
+            Console.WriteLine($"{Name} says HeLlO to {human.Name}");
+        }
+
+
+
 
         public static Human RandomHuman()
         {
@@ -222,8 +241,8 @@
         public static Human MakeChild(Human male, Human female)
         {
             Random rnd = new Random();
-            string[] maleNames = { "Noah", "Cain", "Able", "Disable", "Frank", "Abraham" };
-            string[] femaleNames = { "Lilith", "Sheniqua", "Sara", "Eva", "Alina", "Beyonce" };
+            string[] maleNames = { "Noah", "Cain", "Able", "Disable", "Frank", "Abraham", "Tom", "Jack", "Oskar", "Sebbe" };
+            string[] femaleNames = { "Lilith", "Sheniqua", "Sara", "Amanda", "Alina", "Beyonce", "Emma", "Linda", "Sofia", "Zara", "Yiff" };
 
 
             Gender Child;
@@ -244,6 +263,7 @@
             Human human = new Human(childName, Child, male.HomeLocation, true, male.Name, female.Name);
             return human;
         }
+
 
         public static void RandomDeathInPopulation(List<Human> humans)
         {
@@ -276,17 +296,45 @@
             Console.WriteLine($"Amount of children: {children.Count}");
         }
 
-        public void GetOlder()
+
+        public void InheritWealth(List<Human> population)
         {
-            Age++;
+            List<Human> children = new();
+
+            if (IsAlive == false)
+            {
+                children = population.Where(x => x.Father == Name && x.IsAlive).ToList();
+            }
+
+            if (children.Count != 0)
+            {
+                decimal wealthDivided = Wealth / children.Count();
+                foreach (var c in children)
+                {
+                    c.Wealth = wealthDivided;
+                }
+            }
+
+            //foreach (var h in children)
+            //{
+            //    Console.WriteLine($"{h.Name} Wealth: {h.Wealth}");
+            //}
+        }
+
+
+
+
+        public void GetOlder(int age)
+        {
+            Age += age;
         }
 
         public override string ToString()
         {
-            return $"{Name} Guid: {DNA} Gender: {Gender}. Age: {Age}. Is Alive: {IsAlive}. Birth Location: {HomeLocation}" +
+            return $"{Name}  Gender: {Gender}. Age: {Age}. Is Alive: {IsAlive}. Birth Location: {HomeLocation}" +
                 $" Father: {Father}. Mother: {Mother}";
         }
-
+        //Guid: {DNA}
 
 
 
